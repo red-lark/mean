@@ -10,7 +10,7 @@ module.exports = function(){
     const app = express();
     
     if(process.env.NODE_ENF === "development"){
-        app.use(morgan('dev'));
+        app.use(morgan('combined'));
     }else{
         app.use(compress());
     }
@@ -18,6 +18,7 @@ module.exports = function(){
     app.use(bodyParser.urlencoded({
         extended: true
     }));
+    app.use(bodyParser.json());
     app.use(methodOverride());
     
     app.use(session({
@@ -30,6 +31,7 @@ module.exports = function(){
     app.set('view engine','ejs');
     
     require("../app/routes/index.server.routes.js")(app);
+    require("../app/routes/users.server.routes.js")(app);
     
     app.use(express.static('./public'));
     
